@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">AppKotlin</string>
+    <string name="hello_land_world">Hello Land World!</string>
+    <string name="hello_portrait_world">Hello Portrait World!</string>
+    <string name="second_activity">Second Activity</string>
+    <string name="this_is_second_activity">This is second activity</string>
+</resources>
