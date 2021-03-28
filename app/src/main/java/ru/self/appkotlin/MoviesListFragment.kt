@@ -14,8 +14,12 @@ class MoviesListFragment: Fragment() {
         return inflater.inflate(R.layout.fragment_movies_list, container, false)
     }
 
-    fun setClickListener(listener: MoviesListItemClickListener) {
-        moviesClickListener = listener
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        view.findViewById<View>(R.id.movies_list_item_layout)?.setOnClickListener {
+            moviesClickListener?.onMovieSelected()
+        }
     }
 
     interface MoviesListItemClickListener {

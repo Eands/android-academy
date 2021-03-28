@@ -5,10 +5,7 @@ import android.os.Bundle
 
 class MainActivity : AppCompatActivity(),
     MoviesListFragment.MoviesListItemClickListener,
-    MovieDetails.MovieDetailsBackClickListener {
-
-    private val backListener = MoviesListFragment().apply { setClickListener(this@MainActivity) }
-    private val detailsListener = MovieDetails().apply { setClickListener(this@MainActivity) }
+    MovieDetailsFragment.MovieDetailsBackClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -17,17 +14,13 @@ class MainActivity : AppCompatActivity(),
 
     override fun onMovieSelected() {
         supportFragmentManager.beginTransaction()
-            .apply {
-                add(R.id.container, detailsListener)
-                commit()
-            }
+            .add(R.id.container, MovieDetailsFragment())
+            .commit()
     }
 
     override fun onMovieDeselected() {
         supportFragmentManager.beginTransaction()
-            .apply {
-                replace(R.id.container, backListener)
-                commit()
-            }
+            .replace(R.id.container, MoviesListFragment())
+            .commit()
     }
 }
