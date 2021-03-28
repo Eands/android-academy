@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 
 class MoviesListFragment: Fragment() {
@@ -17,9 +18,12 @@ class MoviesListFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<View>(R.id.movies_list_item_layout)?.setOnClickListener {
-            moviesClickListener?.onMovieSelected()
+        view.findViewById<ConstraintLayout>(R.id.movies_list_item_layout).apply {
+            setOnClickListener {moviesClickListener?.onMovieSelected()}
         }
+//        view.findViewById<ConstraintLayout>(R.id.movies_list_item_layout)?.setOnClickListener {
+//            moviesClickListener?.onMovieSelected()
+//        }
     }
 
     interface MoviesListItemClickListener {

@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 
 class MovieDetailsFragment : Fragment() {
@@ -17,9 +18,12 @@ class MovieDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<View>(R.id.movie_details)?.setOnClickListener {
-            backListener?.onMovieDeselected()
+        view.findViewById<TextView>(R.id.back_button_text).apply {
+            setOnClickListener { backListener?.onMovieDeselected() }
         }
+//        view.findViewById<TextView>(R.id.back_button_text)?.setOnClickListener {
+//            backListener?.onMovieDeselected()
+//        }
     }
 
     interface MovieDetailsBackClickListener {
