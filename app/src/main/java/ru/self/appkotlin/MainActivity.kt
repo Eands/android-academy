@@ -3,6 +3,9 @@ package ru.self.appkotlin
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import ru.self.appkotlin.data.models.Movie
+import ru.self.appkotlin.movieDetails.MovieDetailsFragment
+import ru.self.appkotlin.movies.MoviesListFragment
 
 class MainActivity : AppCompatActivity(),
     MoviesListFragment.MoviesListItemClickListener,
@@ -16,10 +19,13 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onMovieSelected() {
-        Log.i("INFO", "onMovieSelected: inside onMovieSelected method")
+    override fun onMovieSelected(movie: Movie) {
+//        Log.i("INFO", "onMovieSelected: inside onMovieSelected method")
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, MovieDetailsFragment())
+            .add(
+                R.id.container,
+                MovieDetailsFragment.create(movie)
+            )
             .commit()
 
     }
@@ -29,9 +35,11 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun routeBack() {
-        Log.i("INFO", "routeBack: inside routeBack method")
+//        Log.i("INFO", "routeBack: inside routeBack method")
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, MoviesListFragment())
+            .replace(
+                R.id.container,
+                MoviesListFragment())
             .commit()
     }
 }

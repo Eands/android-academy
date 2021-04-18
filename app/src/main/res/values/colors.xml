@@ -12,4 +12,5 @@
     <color name="white">#FFFFFF</color>
     <color name="light_gray">#D8D8D8</color>
     <color name="stroke_card_color">#636375</color>
+    <color name="background_card_color">#222232</color>
 </resources>

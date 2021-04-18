@@ -19,4 +19,5 @@
     <dimen name="movies_list_allowed_age_corners">5dp</dimen>
     <dimen name="space8dp">8dp</dimen>
     <dimen name="movies_list_card_corners">24dp</dimen>
+    <dimen name="actor_card_width">80dp</dimen>
 </resources>
