@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +20,8 @@ import kotlinx.coroutines.launch
 class MoviesListFragment : Fragment() {
 
     private var listener: MoviesListItemClickListener? = null
+    private val viewModel : MoviesListViewModel by viewModels {
+        MoviesListViewModelFactory((requireActivity() as MovieRepositoryProvider).provideMovieRepository()) }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -25,6 +29,8 @@ class MoviesListFragment : Fragment() {
         if (context is MoviesListItemClickListener) {
             listener = context
         }
+
+        viewModel.addView()
     }
 
     override fun onCreateView(
@@ -49,17 +55,14 @@ class MoviesListFragment : Fragment() {
 
             this.adapter = adapter
 
-            loadDataToAdapter(adapter)
+            updateAdapter(adapter)
         }
     }
 
-    private fun loadDataToAdapter(adapter: MoviesListAdapter) {
-        val repository = (requireActivity() as MovieRepositoryProvider).provideMovieRepository()
-        lifecycleScope.launch {
-            val moviesData = repository.loadMovies()
-
-            adapter.submitList(moviesData)
-        }
+    private fun updateAdapter(adapter: MoviesListAdapter) {
+        viewModel.movies.observe(viewLifecycleOwner, Observer {
+            adapter.submitList(it)
+        })
     }
 
     override fun onDetach() {

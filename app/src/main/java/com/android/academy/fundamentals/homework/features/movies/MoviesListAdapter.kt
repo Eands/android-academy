@@ -31,7 +31,6 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
         private val likeImage: ImageView = itemView.findViewById(R.id.movie_like_image)
         private val pgText: TextView = itemView.findViewById(R.id.pg_text)

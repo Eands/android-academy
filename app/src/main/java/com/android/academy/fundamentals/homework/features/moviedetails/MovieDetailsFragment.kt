@@ -13,6 +13,8 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -26,6 +28,9 @@ import kotlinx.coroutines.launch
 class MovieDetailsFragment : Fragment() {
 
     private var listener: MovieDetailsBackClickListener? = null
+    private val viewModel: MovieDetailsViewModel by viewModels {
+        MovieDetailsViewModelFactory((requireActivity() as MovieRepositoryProvider).provideMovieRepository())
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -60,14 +65,18 @@ class MovieDetailsFragment : Fragment() {
             listener?.onMovieDeselected()
         }
         lifecycleScope.launch {
-            val repository = (requireActivity() as MovieRepositoryProvider).provideMovieRepository()
-            val movie = repository.loadMovie(movieId)
-
-            if (movie != null) {
-                bindUI(view, movie)
-            } else {
-                showMovieNotFoundError()
-            }
+            viewModel.loadDetails(movieId)
+            viewModel.movieDetail.observe(viewLifecycleOwner, Observer {
+                when (it) {
+                    null -> {
+                        showMovieNotFoundError()
+                    }
+                    else -> {
+                        bindUI(view, it)
+                    }
+                }
+            })
+//            viewModel.movieDetail.value?.let { bindUI(view, it) } ?:
         }
     }
 
@@ -78,6 +87,11 @@ class MovieDetailsFragment : Fragment() {
 
     private fun bindUI(view: View, movie: Movie) {
         updateMovieDetailsInfo(movie)
+        if (movie.actors.isEmpty()) {
+            view.findViewById<RecyclerView>(R.id.recycler_movies).layoutManager.apply {
+                
+            }
+        }
         val adapter =
             view.findViewById<RecyclerView>(R.id.recycler_movies).adapter as ActorsListAdapter
         adapter.submitList(movie.actors)
