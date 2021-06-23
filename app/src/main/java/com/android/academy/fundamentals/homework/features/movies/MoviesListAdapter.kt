@@ -47,37 +47,37 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         private val movieLenText: TextView = itemView.findViewById(R.id.film_time_text)
 
         fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) {
-            movieImage.load(item.imageUrl)
+//            movieImage.load(item.imageUrl)
 
             val context = itemView.context
-            pgText.text =
-                context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
-            genreText.text = item.genres.joinToString { it.name }
-            reviewsText.text =
-                context.getString(R.string.movies_list_reviews_template, item.reviewCount)
+//            pgText.text =
+//                context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
+//            genreText.text = item.genres.joinToString { it.name }
+//            reviewsText.text =
+//                context.getString(R.string.movies_list_reviews_template, item.reviewCount)
             titleText.text = item.title
-            movieLenText.text = context.getString(R.string.movies_list_film_time, item.runningTime)
+//            movieLenText.text = context.getString(R.string.movies_list_film_time, item.runningTime)
 
-            val likeColor = if (item.isLiked) {
-                R.color.pink_light
-            } else {
-                R.color.color_white
-            }
-            ImageViewCompat.setImageTintList(
-                likeImage, ColorStateList.valueOf(
-                    ContextCompat.getColor(likeImage.context, likeColor)
-                )
-            )
+//            val likeColor = if (item.isLiked) {
+//                R.color.pink_light
+//            } else {
+//                R.color.color_white
+//            }
+//            ImageViewCompat.setImageTintList(
+//                likeImage, ColorStateList.valueOf(
+//                    ContextCompat.getColor(likeImage.context, likeColor)
+//                )
+//            )
 
             //set stars tint
-            starsImages.forEachIndexed { index, imageView ->
-                val colorId = if (item.rating > index) R.color.pink_light else R.color.gray_dark
-                ImageViewCompat.setImageTintList(
-                    imageView, ColorStateList.valueOf(
-                        ContextCompat.getColor(imageView.context, colorId)
-                    )
-                )
-            }
+//            starsImages.forEachIndexed { index, imageView ->
+//                val colorId = if (item.rating > index) R.color.pink_light else R.color.gray_dark
+//                ImageViewCompat.setImageTintList(
+//                    imageView, ColorStateList.valueOf(
+//                        ContextCompat.getColor(imageView.context, colorId)
+//                    )
+//                )
+//            }
 
             itemView.setOnClickListener {
                 onClickCard(item)

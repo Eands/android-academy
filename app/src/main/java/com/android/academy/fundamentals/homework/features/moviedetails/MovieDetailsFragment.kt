@@ -87,14 +87,13 @@ class MovieDetailsFragment : Fragment() {
 
     private fun bindUI(view: View, movie: Movie) {
         updateMovieDetailsInfo(movie)
-        if (movie.actors.isEmpty()) {
-            view.findViewById<RecyclerView>(R.id.recycler_movies).layoutManager.apply {
-                
-            }
-        }
-        val adapter =
-            view.findViewById<RecyclerView>(R.id.recycler_movies).adapter as ActorsListAdapter
-        adapter.submitList(movie.actors)
+//        if (movie.actors.isEmpty()) {
+//            view.findViewById<RecyclerView>(R.id.recycler_movies).layoutManager.apply {
+//
+//            }
+//        }
+//        val adapter = view.findViewById<RecyclerView>(R.id.recycler_movies).adapter as ActorsListAdapter
+//        adapter.submitList(movie.actors)
     }
 
     override fun onDetach() {
@@ -104,17 +103,17 @@ class MovieDetailsFragment : Fragment() {
     }
 
     private fun updateMovieDetailsInfo(movie: Movie) {
-        view?.findViewById<ImageView>(R.id.movie_logo_image)?.load(movie.detailImageUrl)
+//        view?.findViewById<ImageView>(R.id.movie_logo_image)?.load(movie.backdrop_path)
 
-        view?.findViewById<TextView>(R.id.movie_age_restrictions_text)?.text =
-            context?.getString(R.string.movies_list_allowed_age_template, movie.pgAge)
+//        view?.findViewById<TextView>(R.id.movie_age_restrictions_text)?.text =
+//            context?.getString(R.string.movies_list_allowed_age_template, movie.pgAge)
 
         view?.findViewById<TextView>(R.id.movie_name_text)?.text = movie.title
-        view?.findViewById<TextView>(R.id.movie_tags_text)?.text =
-            movie.genres.joinToString { it.name }
-        view?.findViewById<TextView>(R.id.movie_reviews_count_text)?.text =
-            context?.getString(R.string.movies_list_reviews_template, movie.reviewCount)
-        view?.findViewById<TextView>(R.id.movie_storyline_text)?.text = movie.storyLine
+//        view?.findViewById<TextView>(R.id.movie_tags_text)?.text =
+//            movie.genres.joinToString { it.name }
+//        view?.findViewById<TextView>(R.id.movie_reviews_count_text)?.text =
+//            context?.getString(R.string.movies_list_reviews_template, movie.reviewCount)
+//        view?.findViewById<TextView>(R.id.movie_storyline_text)?.text = movie.storyLine
 
         val starsImages = listOf<ImageView?>(
             view?.findViewById(R.id.star1_image),
@@ -123,17 +122,17 @@ class MovieDetailsFragment : Fragment() {
             view?.findViewById(R.id.star4_image),
             view?.findViewById(R.id.star5_image)
         )
-        starsImages.forEachIndexed { index, imageView ->
-            imageView?.let {
-                val colorId =
-                    if (movie.rating > index) R.color.pink_light else R.color.gray_dark
-                ImageViewCompat.setImageTintList(
-                    imageView, ColorStateList.valueOf(
-                        ContextCompat.getColor(imageView.context, colorId)
-                    )
-                )
-            }
-        }
+//        starsImages.forEachIndexed { index, imageView ->
+//            imageView?.let {
+//                val colorId =
+//                    if (movie.rating > index) R.color.pink_light else R.color.gray_dark
+//                ImageViewCompat.setImageTintList(
+//                    imageView, ColorStateList.valueOf(
+//                        ContextCompat.getColor(imageView.context, colorId)
+//                    )
+//                )
+//            }
+//        }
     }
 
     interface MovieDetailsBackClickListener {

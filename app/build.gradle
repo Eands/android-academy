@@ -47,7 +47,13 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
     // LiveData
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
-
+    // define a BOM and its version
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:4.9.1"))
+    // define any required OkHttp artifacts without version
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
     testImplementation 'junit:junit:4.13.1'
     testImplementation 'org.assertj:assertj-core:3.18.1'
