@@ -1,14 +1,16 @@
 package com.android.academy.fundamentals.homework.di
 
-import com.android.academy.fundamentals.homework.service.MovieApiService
+import com.android.academy.fundamentals.homework.data.remote.retrofit.MovieApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
 class NetworkModule {
+
     private val baseUrl = "https://api.themoviedb.org/"
     private val version = "3/"
 
@@ -26,6 +28,7 @@ class NetworkModule {
 
     private val retrofitBuilder = Retrofit.Builder()
         .baseUrl(baseUrl + version)
+        .addConverterFactory(GsonConverterFactory.create())
         .client(httpClient)
 
     private val retrofit = retrofitBuilder.build()

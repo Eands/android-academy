@@ -1,4 +1,4 @@
-package com.android.academy.fundamentals.homework.features.movies
+package com.android.academy.fundamentals.homework.presentation.features.movies.view
 
 import android.content.res.ColorStateList
 import android.view.LayoutInflater
@@ -15,7 +15,7 @@ import coil.load
 import com.android.academy.fundamentals.homework.R
 import com.android.academy.fundamentals.homework.model.Movie
 
-class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
+class MoviesListAdapter(private val onClickCard: (movieId: Int) -> Unit) :
     ListAdapter<Movie, MoviesListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,6 +31,7 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         private val movieImage: ImageView = itemView.findViewById(R.id.movie_image)
         private val likeImage: ImageView = itemView.findViewById(R.id.movie_like_image)
         private val pgText: TextView = itemView.findViewById(R.id.pg_text)
@@ -46,41 +47,44 @@ class MoviesListAdapter(private val onClickCard: (item: Movie) -> Unit) :
         private val titleText: TextView = itemView.findViewById(R.id.film_name_text)
         private val movieLenText: TextView = itemView.findViewById(R.id.film_time_text)
 
-        fun bind(item: Movie, onClickCard: (item: Movie) -> Unit) {
-//            movieImage.load(item.imageUrl)
+        fun bind(item: Movie, onClickCard: (movieId: Int) -> Unit) {
+
+            movieImage.load(item.imageUrl) {
+                crossfade(true)
+            }
 
             val context = itemView.context
-//            pgText.text =
-//                context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
-//            genreText.text = item.genres.joinToString { it.name }
-//            reviewsText.text =
-//                context.getString(R.string.movies_list_reviews_template, item.reviewCount)
+            pgText.text =
+                context.getString(R.string.movies_list_allowed_age_template, item.pgAge)
+            genreText.text = item.genres.joinToString { it.name }
+            reviewsText.text =
+                context.getString(R.string.movies_list_reviews_template, item.reviewCount)
             titleText.text = item.title
-//            movieLenText.text = context.getString(R.string.movies_list_film_time, item.runningTime)
+            movieLenText.text = context.getString(R.string.movies_list_film_time, item.runningTime)
 
-//            val likeColor = if (item.isLiked) {
-//                R.color.pink_light
-//            } else {
-//                R.color.color_white
-//            }
-//            ImageViewCompat.setImageTintList(
-//                likeImage, ColorStateList.valueOf(
-//                    ContextCompat.getColor(likeImage.context, likeColor)
-//                )
-//            )
+            val likeColor = if (item.isLiked) {
+                R.color.pink_light
+            } else {
+                R.color.color_white
+            }
+            ImageViewCompat.setImageTintList(
+                likeImage, ColorStateList.valueOf(
+                    ContextCompat.getColor(likeImage.context, likeColor)
+                )
+            )
 
             //set stars tint
-//            starsImages.forEachIndexed { index, imageView ->
-//                val colorId = if (item.rating > index) R.color.pink_light else R.color.gray_dark
-//                ImageViewCompat.setImageTintList(
-//                    imageView, ColorStateList.valueOf(
-//                        ContextCompat.getColor(imageView.context, colorId)
-//                    )
-//                )
-//            }
+            starsImages.forEachIndexed { index, imageView ->
+                val colorId = if (item.rating > index) R.color.pink_light else R.color.gray_dark
+                ImageViewCompat.setImageTintList(
+                    imageView, ColorStateList.valueOf(
+                        ContextCompat.getColor(imageView.context, colorId)
+                    )
+                )
+            }
 
             itemView.setOnClickListener {
-                onClickCard(item)
+                onClickCard(item.id)
             }
         }
     }

@@ -1,20 +1,24 @@
-package com.android.academy.fundamentals.homework
+package com.android.academy.fundamentals.homework.presentation.features.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.android.academy.fundamentals.homework.data.JsonMovieRepository
-import com.android.academy.fundamentals.homework.data.MovieRepository
+import com.android.academy.fundamentals.homework.R
+import com.android.academy.fundamentals.homework.data.remote.retrofit.RetrofitDataSource
 import com.android.academy.fundamentals.homework.di.MovieRepositoryProvider
-import com.android.academy.fundamentals.homework.features.moviedetails.MovieDetailsFragment
-import com.android.academy.fundamentals.homework.features.movies.MoviesListFragment
-import com.android.academy.fundamentals.homework.model.Movie
+import com.android.academy.fundamentals.homework.di.NetworkModule
+import com.android.academy.fundamentals.homework.presentation.features.moviedetails.view.MovieDetailsFragment
+import com.android.academy.fundamentals.homework.presentation.features.movies.view.MoviesListFragment
+import com.android.academy.fundamentals.homework.repository.MovieRepository
+import com.android.academy.fundamentals.homework.repository.MovieRepositoryImpl
 
 class MainActivity : AppCompatActivity(),
     MoviesListFragment.MoviesListItemClickListener,
     MovieDetailsFragment.MovieDetailsBackClickListener,
     MovieRepositoryProvider {
 
-    private val jsonMovieRepository = JsonMovieRepository(this)
+    private val networkModule = NetworkModule()
+    private val remoteDataSource = RetrofitDataSource(networkModule.api)
+    private val movieRepository = MovieRepositoryImpl(remoteDataSource)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,8 +29,8 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
-    override fun onMovieSelected(movie: Movie) {
-        routeToMovieDetails(movie)
+    override fun onMovieSelected(movieId: Int) {
+        routeToMovieDetails(movieId)
     }
 
     override fun onMovieDeselected() {
@@ -44,11 +48,11 @@ class MainActivity : AppCompatActivity(),
             .commit()
     }
 
-    private fun routeToMovieDetails(movie: Movie) {
+    private fun routeToMovieDetails(movieId: Int) {
         supportFragmentManager.beginTransaction()
             .add(
                 R.id.container,
-                MovieDetailsFragment.create(movie.id),
+                MovieDetailsFragment.create(movieId),
                 MovieDetailsFragment::class.java.simpleName
             )
             .addToBackStack("trans:${MovieDetailsFragment::class.java.simpleName}")
@@ -59,5 +63,5 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.popBackStack()
     }
 
-    override fun provideMovieRepository(): MovieRepository = jsonMovieRepository
+    override fun provideMovieRepository(): MovieRepository = movieRepository
 }
