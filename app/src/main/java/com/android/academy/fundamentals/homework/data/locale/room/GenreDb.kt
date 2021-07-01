@@ -1,4 +1,4 @@
-package com.android.academy.fundamentals.homework.data.remote.room.entities
+package com.android.academy.fundamentals.homework.data.locale.room
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
@@ -8,14 +8,15 @@ import androidx.room.ForeignKey
     primaryKeys = ["id"],
     foreignKeys = [
         ForeignKey(
-            entity = MovieEntity::class,
+            entity = MovieDb::class,
             parentColumns = ["id"],
             childColumns = ["parentId"],
-            onDelete = ForeignKey.CASCADE
+            onDelete = ForeignKey.NO_ACTION
         )
     ]
 )
-data class GenreEntity(
-    val parentId: Int,
+data class GenreDb(
     val id: Int,
-    val name: String)
+    val name: String,
+    val parentId: Int
+)

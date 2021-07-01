@@ -1,4 +1,4 @@
-package com.android.academy.fundamentals.homework.data.remote
+package com.android.academy.fundamentals.homework.data.locale
 
 import com.android.academy.fundamentals.homework.model.Movie
 import com.android.academy.fundamentals.homework.model.MovieDetails

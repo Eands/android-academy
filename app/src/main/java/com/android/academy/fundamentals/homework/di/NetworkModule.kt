@@ -1,7 +1,9 @@
 package com.android.academy.fundamentals.homework.di
 
 import com.android.academy.fundamentals.homework.data.remote.retrofit.MovieApiService
+import kotlinx.serialization.json.Json
 import okhttp3.Interceptor
+import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
@@ -13,6 +15,13 @@ class NetworkModule {
 
     private val baseUrl = "https://api.themoviedb.org/"
     private val version = "3/"
+
+    private val json = Json {
+        prettyPrint = true
+        ignoreUnknownKeys = true
+    }
+
+    private val contentType = "application/json".toMediaType()
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

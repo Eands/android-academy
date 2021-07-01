@@ -1,24 +1,23 @@
-package com.android.academy.fundamentals.homework.data.remote.room.entities
+package com.android.academy.fundamentals.homework.data.locale.room
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
-import java.io.Serializable
 
 @Entity(
     tableName = "Actor",
     primaryKeys = ["id"],
     foreignKeys = [
         ForeignKey(
-            entity = MovieEntity::class,
+            entity = MovieDb::class,
             parentColumns = ["id"],
             childColumns = ["parentId"],
             onDelete = ForeignKey.CASCADE
         )
     ]
 )
-data class ActorEntity(
-    val parentId: Int,
+data class ActorDb(
     val id: Int,
     val name: String,
     val imageUrl: String?,
-) : Serializable
+    val parentId: Int
+)

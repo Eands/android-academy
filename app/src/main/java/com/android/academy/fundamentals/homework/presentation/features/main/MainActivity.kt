@@ -2,27 +2,29 @@ package com.android.academy.fundamentals.homework.presentation.features.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.android.academy.fundamentals.homework.MovieApp
+import com.android.academy.fundamentals.homework.MovieApp.Companion.db
 import com.android.academy.fundamentals.homework.R
-import com.android.academy.fundamentals.homework.data.remote.LocalDataSource
+import com.android.academy.fundamentals.homework.data.remote.retrofit.ImageUrlAppender
+import com.android.academy.fundamentals.homework.data.locale.room.AppRoomDatabase
+import com.android.academy.fundamentals.homework.data.locale.room.RoomDataSource
 import com.android.academy.fundamentals.homework.data.remote.retrofit.RetrofitDataSource
-import com.android.academy.fundamentals.homework.data.remote.room.AppDataBase
-import com.android.academy.fundamentals.homework.data.remote.room.RoomDataSource
 import com.android.academy.fundamentals.homework.di.MovieRepositoryProvider
 import com.android.academy.fundamentals.homework.di.NetworkModule
+import com.android.academy.fundamentals.homework.domain.MovieRepository
 import com.android.academy.fundamentals.homework.presentation.features.moviedetails.view.MovieDetailsFragment
 import com.android.academy.fundamentals.homework.presentation.features.movies.view.MoviesListFragment
-import com.android.academy.fundamentals.homework.repository.MovieRepository
 import com.android.academy.fundamentals.homework.repository.MovieRepositoryImpl
 
-class MainActivity : AppCompatActivity(),
+internal class MainActivity : AppCompatActivity(),
     MoviesListFragment.MoviesListItemClickListener,
     MovieDetailsFragment.MovieDetailsBackClickListener,
     MovieRepositoryProvider {
 
     private val networkModule = NetworkModule()
-    private val remoteDataSource = RetrofitDataSource(networkModule.api)
-    private lateinit var localDataSource: RoomDataSource
-    private lateinit var movieRepository: MovieRepositoryImpl
+    private val remoteDataSource = RetrofitDataSource(networkModule.api, ImageUrlAppender(networkModule.api))
+    private val localDataSource = RoomDataSource(db)
+    private val movieRepository = MovieRepositoryImpl(localDataSource, remoteDataSource)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,12 +33,6 @@ class MainActivity : AppCompatActivity(),
         if (savedInstanceState == null) {
             routeToMoviesList()
         }
-    }
-
-    override fun onStart() {
-        localDataSource = RoomDataSource(AppDataBase.create(this))
-        movieRepository = MovieRepositoryImpl(remoteDataSource, localDataSource)
-        super.onStart()
     }
 
     override fun onMovieSelected(movieId: Int) {
@@ -54,7 +50,6 @@ class MainActivity : AppCompatActivity(),
                 MoviesListFragment.create(),
                 MoviesListFragment::class.java.simpleName
             )
-            .addToBackStack("trans:${MoviesListFragment::class.java.simpleName}")
             .commit()
     }
 
