@@ -58,7 +58,7 @@ class MoviesListFragment : Fragment() {
     }
 
     private fun loadDataToAdapter(adapter: MoviesListAdapter) {
-        viewModel.moviesStateOutput.observe(viewLifecycleOwner, { state ->
+        viewModel.moviesStateOutput.observe(viewLifecycleOwner) { state ->
             when (state) {
                 is MoviesLoaded -> adapter.submitList(state.movies)
                 is FailedToLoad -> Toast.makeText(
@@ -67,7 +67,7 @@ class MoviesListFragment : Fragment() {
                     Toast.LENGTH_SHORT
                 ).show()
             }.exhaustive
-        })
+        }
     }
 
     override fun onDetach() {
